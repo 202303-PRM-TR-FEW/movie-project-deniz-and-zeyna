@@ -9,3 +9,32 @@
 #actors {
     margin: 24px 16px 0 0;
 }
+
+.movieDiv {
+    margin-right: 30px;
+    /* position: relative; */
+    z-index: -1 !important;
+    cursor: pointer;
+
+}
+
+.movieDiv:hover .movieImage {
+    transform: scale(1.2);
+    margin: 0 30px;
+    cursor: pointer;
+}
+
+.movieImage {
+    border-radius: 50px;
+    width: 250px;
+    height: 250px;
+    transition: 1s all ease-in-out;
+    position: relative;
+    z-index: -1 !important;
+}
+
+.actors {
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+}
