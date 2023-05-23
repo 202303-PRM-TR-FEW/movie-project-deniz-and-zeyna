@@ -5,20 +5,18 @@ const PROFILE_BASE_URL = "http://image.tmdb.org/t/p/w185";
 const BACKDROP_BASE_URL = "http://image.tmdb.org/t/p/w780";
 const CONTAINER = document.querySelector(".container");
 const GENREDD = document.getElementById("genredd");
+const moviegenre = document.getElementById("moviegenre");
 
 // Don't touch this function please
 const autorun = async () => {
 
   const movies = await fetchMovies();
   renderMovies(movies.results);
+  const gen = await fetchGenre();
+  renderGenre(gen.genres)
 
 };
-function renderss(event) {
-  // Handle the li click event here
-  const genres = fetchGenre();
-  renderGenre(genres);
-}
-GENREDD.addEventListener("click", renderss);
+
 
 // Don't touch this function please
 const constructUrl = (path) => {
@@ -45,7 +43,7 @@ const fetchGenre = async () => {
   const url = constructUrl(`genre/movie/list`);
   const res = await fetch(url);
   const data = await res.json();
-  renderGenre(data.genres);
+  return data;
 };
 const fetchCast = async (movieId) => {
   const url = constructUrl(`movie/${movieId}/credits`);
@@ -69,7 +67,7 @@ const renderMovies = (movies) => {
     movieDiv.setAttribute("class", "movieDiv");
     movieDiv.innerHTML = `
      <img class="movieImage" src="${BACKDROP_BASE_URL + movie.backdrop_path}" alt="${movie.title} poster">
-     <h3>${movie.id}</h3>
+     <h3>${movie.title}</h3>
      `;
 
     movieDiv.addEventListener("click", () => {
@@ -81,11 +79,13 @@ const renderMovies = (movies) => {
 const renderGenre = (genres) => {
   genres.map((genre) => {
     const genreli = document.createElement('li');
-    genreli.innerText = `${genre}`;
+    genreli.innerHTML = genre.name;
     GENREDD.appendChild(genreli)
 
   })
-}
+
+};
+
 const renderCast = (cast) => {
   const castDiv = document.querySelector(".cast");
   cast.map((actor) => {
