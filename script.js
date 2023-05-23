@@ -6,6 +6,11 @@ const BACKDROP_BASE_URL = "http://image.tmdb.org/t/p/w780";
 const CONTAINER = document.querySelector(".container");
 const GENREDD = document.getElementById("genredd");
 const moviegenre = document.getElementById("moviegenre");
+const about = document.getElementById("about");
+about.addEventListener("click", () => {
+  CONTAINER.innerHTML = "<h1> this page is about movies</h1><p> we show you movies </p>"
+
+});
 
 // Don't touch this function please
 const autorun = async () => {
@@ -58,7 +63,11 @@ const fetchMovie = async (movieId) => {
   const res = await fetch(url);
   return res.json();
 };
-
+const fetchMoviesByGenre = async (genreId) => {
+  const res = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=69a9422c12ba57938ae24e90e3fc9cdf&with_genres=${genreId}`);
+  const data = await res.json();
+  return data;
+};
 // You'll need to play with this function in order to add features and enhance the style.
 const renderMovies = (movies) => {
   CONTAINER.innerHTML = ""
@@ -76,10 +85,15 @@ const renderMovies = (movies) => {
     CONTAINER.appendChild(movieDiv);
   })
 };
-const renderGenre = (genres) => {
+
+const renderGenre = async (genres) => {
   genres.map((genre) => {
     const genreli = document.createElement('li');
     genreli.innerHTML = genre.name;
+    genreli.addEventListener("click", async () => {
+      const moviebygenre = await fetchMoviesByGenre(genre.id)
+      renderMovies(moviebygenre.results);
+    });
     GENREDD.appendChild(genreli)
 
   })
