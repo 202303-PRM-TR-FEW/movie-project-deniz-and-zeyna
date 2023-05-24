@@ -8,7 +8,15 @@ const GENREDD = document.getElementById("genredd");
 const moviegenre = document.getElementById("moviegenre");
 const about = document.getElementById("about");
 about.addEventListener("click", () => {
-  CONTAINER.innerHTML = "<h1> this page is about movies</h1><p> we show you movies </p>"
+  CONTAINER.innerHTML = ` <div class="card mx-5 my-5 px-5 py-5 text-bg-secondary ">
+
+  <div class="card-body fw-normal fst-italic fs-5 text">
+    
+    <p class="card-text"> Welcome to the CHILL! </p>
+    <p> We are your one-stop destination for all things movies. We have a vast library of movies, including new releases, classic films, and everything in between. We also have a comprehensive database of actors and actresses, so you can learn more about your favorite stars. </p>
+    <p class="card-text"> Our website is easy to use and navigate. You can search for movies by title, actor, genre, or release date. You can also browse our collection by popular movies, top rated movies, now playing movies, and upcoming movies. </p>
+
+  </div>`
 
 });
 
@@ -68,9 +76,46 @@ const fetchMoviesByGenre = async (genreId) => {
   const data = await res.json();
   return data;
 };
+const fetchMoviesBysearch = async (searchInput) => {
+  const res = await fetch(`https://api.themoviedb.org/3/search/multi?api_key=69a9422c12ba57938ae24e90e3fc9cdf&query=${searchInput}`);
+  const data = await res.json();
+  return data;
+};
+const fetchMoviesByFilter = async (filtervalue) => {
+  if (filtervalue == "popular") {
+    const url = constructUrl(`movie/popular`);
+    const res = await fetch(url);
+    const data = await res.json();
+    return data;
+  }
+  else if (filtervalue == "release_date") {
+    const res = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=69a9422c12ba57938ae24e90e3fc9cdf&sort_by=release_date.desc`);
+    const data = await res.json();
+    return data;
+  }
+  else if (filtervalue == "top_rated") {
+    const url = constructUrl(`movie/top_rated`);
+    const res = await fetch(url);
+    const data = await res.json();
+    return data;
+  }
+  else if (filtervalue == "now_playing") {
+    return await fetchMovies()
+  }
+  else if (filtervalue == "upcoming") {
+    const url = constructUrl(`movie/upcoming`);
+    const res = await fetch(url);
+    const data = await res.json();
+    return data;
+  }
+}
 // You'll need to play with this function in order to add features and enhance the style.
 const renderMovies = (movies) => {
   CONTAINER.innerHTML = ""
+  const moviesDiv = document.createElement("div");
+  moviesDiv.setAttribute("class", "moviesDiv");
+  CONTAINER.appendChild(moviesDiv);
+
   movies.map((movie) => {
     const movieDiv = document.createElement("div");
     movieDiv.setAttribute("class", "movieDiv");
@@ -82,14 +127,15 @@ const renderMovies = (movies) => {
     movieDiv.addEventListener("click", () => {
       movieDetails(movie);
     });
-    CONTAINER.appendChild(movieDiv);
+    moviesDiv.appendChild(movieDiv);
   })
 };
 
 const renderGenre = async (genres) => {
   genres.map((genre) => {
     const genreli = document.createElement('li');
-    genreli.innerHTML = genre.name;
+    genreli.setAttribute("class", "genreli");
+    genreli.innerHTML = `${genre.name}`
     genreli.addEventListener("click", async () => {
       const moviebygenre = await fetchMoviesByGenre(genre.id)
       renderMovies(moviebygenre.results);
@@ -134,5 +180,23 @@ const renderMovie = (movie, cast) => {
   renderCast(cast);
 };
 
+var form = document.querySelector('.search-input');
+form.addEventListener('submit', async function (event) {
+  event.preventDefault();
+  var input = document.querySelector('.form-control');
+  var searchQuery = input.value;
+
+  const moviesbysearch = await fetchMoviesBysearch(searchQuery)
+  renderMovies(moviesbysearch.results);
+
+});
+var filterSelect = document.getElementById('filter-select');
+
+filterSelect.addEventListener('change', async function () {
+  var selectedFilter = filterSelect.value;
+
+  const filterMovies = await fetchMoviesByFilter(selectedFilter);
+  renderMovies(filterMovies.results)
+});
 
 document.addEventListener("DOMContentLoaded", autorun);

@@ -2,9 +2,9 @@
     width: 100%;
 }
 
-.container {
+/* .container {
     padding-top: 32px;
-}
+} */
 
 #actors {
     margin: 24px 16px 0 0;
@@ -37,4 +37,41 @@
     display: flex;
     justify-content: space-between;
     cursor: pointer;
+}
+
+.moviesDiv {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    align-items: center;
+    width: 83%;
+    padding-top: 3%;
+    padding-bottom: 3%;
+    transform: translateX(0);
+    transition: all 1s ease-in-out;
+    overflow: hidden;
+    z-index: 100;
+    margin: auto;
+}
+
+.genreli {
+    display: flex;
+    margin: auto;
+    margin-left: 10%;
+    border-bottom: 1px solid;
+}
+
+.cast {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    align-items: center;
+    width: 83%;
+    padding-top: 3%;
+    padding-bottom: 3%;
+    transform: translateX(0);
+    transition: all 1s ease-in-out;
+    overflow: hidden;
+    z-index: 100;
+    margin: auto;
 }
