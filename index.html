@@ -11,24 +11,24 @@
     <title>Movie</title>
 </head>
 
-<body>
+<body class="bg-dark bg-gradient">
     <nav class="navbar navbar-expand-lg text-Warning ">
         <div id="logo">
             <img src="./src/images/logo.png" alt="Chill-logo">
 
         </div>
-        <div class="container-fluid">
+        <div class="container-fluid m-3">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
                 aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarScroll">
                 <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="./index.html">Home</a>
+                    <li class="nav-item btn btn-outline-secondary m-3">
+                        <a class="nav-link active text-warning" aria-current="page" href="./index.html">Home</a>
                     </li>
-                    <li class="nav-item dropdown" id="moviegenre">
-                        <a class=" nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                    <li class="nav-item dropdown btn btn-outline-secondary m-3" id="moviegenre">
+                        <a class=" nav-link dropdown-toggle text-warning" href="#" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
                             Movies
                         </a>
@@ -36,35 +36,40 @@
 
                         </ul>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Actors</a>
+                    <li class="nav-item btn btn-outline-secondary m-3">
+                        <a class="nav-link text-warning" href="#">Actors</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="about" href="#">About</a>
+                    <li class="nav-item btn btn-outline-secondary m-3">
+                        <a class="nav-link text-warning" id="about" href="#">About</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                    <li class="nav-item dropdown btn btn-outline-secondary m-3">
+                        <a class="nav-link dropdown-toggle text-warning" href="#" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
                             Filter
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            <li><a class="dropdown-item" href="#">Popular</a></li>
+                            <li><a class="dropdown-item" href="#">Relase Date</a></li>
+                            <li><a class="dropdown-item" href="#">Top Rated</a></li>
+                            <li><a class="dropdown-item" href="#">Now playing</a></li>
+                            <li><a class="dropdown-item" href="#">Up Coming</a></li>
+
                         </ul>
                     </li>
 
                 </ul>
-                <form class="d-flex flex-fill" role="search">
+
+
+                
+                <form class="search-input d-flex flex-fill" role="search">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
             </div>
         </div>
     </nav>
+    <hr class="divider">
+
     <div class="container">
         <div>
 

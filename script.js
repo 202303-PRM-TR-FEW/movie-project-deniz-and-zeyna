@@ -6,11 +6,22 @@ const BACKDROP_BASE_URL = "http://image.tmdb.org/t/p/w780";
 const CONTAINER = document.querySelector(".container");
 const GENREDD = document.getElementById("genredd");
 const moviegenre = document.getElementById("moviegenre");
+
 const about = document.getElementById("about");
 about.addEventListener("click", () => {
-  CONTAINER.innerHTML = "<h1> this page is about movies</h1><p> we show you movies </p>"
+  CONTAINER.innerHTML = `
+  <div class="card mx-5 my-5 px-5 py-5 text-bg-secondary ">
 
-});
+  <div class="card-body fw-normal fst-italic fs-5 text">
+    
+    <p class="card-text"> Welcome to the CHILL! </p>
+    <p> We are your one-stop destination for all things movies. We have a vast library of movies, including new releases, classic films, and everything in between. We also have a comprehensive database of actors and actresses, so you can learn more about your favorite stars. </p>
+    <p class="card-text"> Our website is easy to use and navigate. You can search for movies by title, actor, genre, or release date. You can also browse our collection by popular movies, top rated movies, now playing movies, and upcoming movies. </p>
+
+  </div>
+`
+})
+
 
 // Don't touch this function please
 const autorun = async () => {
