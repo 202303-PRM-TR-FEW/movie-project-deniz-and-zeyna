@@ -6,13 +6,16 @@ const BACKDROP_BASE_URL = "http://image.tmdb.org/t/p/w780";
 const CONTAINER = document.querySelector(".container");
 const GENREDD = document.getElementById("genredd");
 const moviegenre = document.getElementById("moviegenre");
-
 const about = document.getElementById("about");
 about.addEventListener("click", () => {
+<<<<<<< HEAD
 
   CONTAINER.innerHTML = `
   <div class="card mx-5 my-5 px-5 py-5 text-bg-secondary ">
 
+=======
+  CONTAINER.innerHTML = ` <div class=" mx-5 my-5 px-5 py-5 ">
+>>>>>>> c2b45a5378e78f3094d34107a5c09076ad864e56
 
   <div class="card-body fw-normal fst-italic fs-5 text">
     
@@ -20,12 +23,9 @@ about.addEventListener("click", () => {
     <p> We are your one-stop destination for all things movies. We have a vast library of movies, including new releases, classic films, and everything in between. We also have a comprehensive database of actors and actresses, so you can learn more about your favorite stars. </p>
     <p class="card-text"> Our website is easy to use and navigate. You can search for movies by title, actor, genre, or release date. You can also browse our collection by popular movies, top rated movies, now playing movies, and upcoming movies. </p>
 
+  </div>`
 
-  </div>
-`
-})
-
-
+});
 
 // Don't touch this function please
 const autorun = async () => {
@@ -127,8 +127,8 @@ const renderMovies = (movies) => {
     const movieDiv = document.createElement("div");
     movieDiv.setAttribute("class", "movieDiv");
     movieDiv.innerHTML = `
-     <img class="movieImage" src="${BACKDROP_BASE_URL + movie.backdrop_path}" alt="${movie.title} poster">
-     <h3>${movie.title}</h3>
+     <img class="movieImage card border-warning" src="${BACKDROP_BASE_URL + movie.backdrop_path}" alt="${movie.title} poster">
+     <h4>${movie.title}</h4>
      `;
 
     movieDiv.addEventListener("click", () => {
@@ -137,6 +137,8 @@ const renderMovies = (movies) => {
     moviesDiv.appendChild(movieDiv);
   })
 };
+
+
 
 const renderGenre = async (genres) => {
   genres.map((genre) => {
@@ -158,7 +160,7 @@ const renderCast = (cast) => {
   cast.map((actor) => {
     const actorli = document.createElement("li");
     actorli.setAttribute("class", "actorli");
-    actorli.innerHTML = ` <img class="actorsImages" src="${PROFILE_BASE_URL + actor.profile_path}" alt="${actor.name} poster"><div class="actorsCards"><p class="info" id="actorsNames">${actor.name}</p></div>`;
+    actorli.innerHTML = ` <img class="rounded" src="${PROFILE_BASE_URL + actor.profile_path}" alt="${actor.name} poster"><div class="actorsCards"><p class="info" id="actorsNames">${actor.name}</p></div>`;
 
     castDiv.appendChild(actorli);
   });
