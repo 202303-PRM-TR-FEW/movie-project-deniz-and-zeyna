@@ -1,10 +1,15 @@
+body {
+  background: linear-gradient(135deg, rgb(18, 17, 17), rgb(231, 156, 6));
+}
+
+
 #movie-backdrop {
     width: 100%;
 }
 
-.container {
-    padding-top: 32px;
-}
+/* container {
+padding-top: 32px;
+} */
 
 #actors {
     margin: 24px 16px 0 0;
@@ -15,6 +20,7 @@
     /* position: relative; */
     z-index: -1 !important;
     cursor: pointer;
+    /*height: 400px;*/
 
 }
 
@@ -38,3 +44,52 @@
     justify-content: space-between;
     cursor: pointer;
 }
+
+.moviesDiv {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    align-items: center;
+    width: 83%;
+    padding-top: 3%;
+    padding-bottom: 3%;
+    transform: translateX(0);
+    transition: all 1s ease-in-out;
+    overflow: hidden;
+    z-index: 100;
+    margin-left: 100px;
+    margin-right: 100px;
+}
+
+.genreli {
+    display: flex;
+    margin: auto;
+    margin-left: 10%;
+    border-bottom: 1px solid;
+}
+
+.cast {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    align-items: center;
+    width: 83%;
+    padding-top: 3%;
+    padding-bottom: 3%;
+    transform: translateX(0);
+    transition: all 1s ease-in-out;
+    overflow: hidden;
+    z-index: 100;
+    margin: auto;
+}
+
+h4{
+    color: rgb(255, 196, 0);
+    padding-top: 25px;
+}
+
+h2, h3, p { color: rgb(255, 196, 0);
+} 
+
+
+
