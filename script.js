@@ -12,7 +12,7 @@ about.addEventListener("click", () => {
 
   CONTAINER.innerHTML = `
   <div class="card mx-5 my-5 px-5 py-5 text-bg-secondary ">
->>>>>>> origin/main
+
 
   <div class="card-body fw-normal fst-italic fs-5 text">
     
@@ -192,7 +192,7 @@ form.addEventListener('submit', async function (event) {
   event.preventDefault();
   var input = document.querySelector('.form-control');
   var searchQuery = input.value;
-
+  input.value = ''
   const moviesbysearch = await fetchMoviesBysearch(searchQuery)
   renderMovies(moviesbysearch.results);
 
