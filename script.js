@@ -9,7 +9,6 @@ const moviegenre = document.getElementById("moviegenre");
 const about = document.getElementById("about");
 about.addEventListener("click", () => {
   CONTAINER.innerHTML = ` <div class=" mx-5 my-5 px-5 py-5 ">
->>>>>>> refs/remotes/origin/main
 
   <div class="card-body fw-normal fst-italic fs-5 text">
     
@@ -20,7 +19,6 @@ about.addEventListener("click", () => {
   </div>`
 
 });
-
 
 // Don't touch this function please
 const autorun = async () => {
