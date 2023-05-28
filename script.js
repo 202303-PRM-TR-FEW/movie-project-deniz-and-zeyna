@@ -3,19 +3,12 @@
 const TMDB_BASE_URL = "https://api.themoviedb.org/3";
 const PROFILE_BASE_URL = "http://image.tmdb.org/t/p/w185";
 const BACKDROP_BASE_URL = "http://image.tmdb.org/t/p/w780";
-const CONTAINER = document.querySelector(".container");
+const CONTAINER = document.querySelector(".containers");
 const GENREDD = document.getElementById("genredd");
 const moviegenre = document.getElementById("moviegenre");
 const about = document.getElementById("about");
 about.addEventListener("click", () => {
-<<<<<<< HEAD
-
-  CONTAINER.innerHTML = `
-  <div class="card mx-5 my-5 px-5 py-5 text-bg-secondary ">
-
-=======
   CONTAINER.innerHTML = ` <div class=" mx-5 my-5 px-5 py-5 ">
->>>>>>> c2b45a5378e78f3094d34107a5c09076ad864e56
 
   <div class="card-body fw-normal fst-italic fs-5 text">
     
@@ -31,16 +24,19 @@ about.addEventListener("click", () => {
 const autorun = async () => {
 
   const movies = await fetchMovies();
-  renderMovies(movies.results);
+  const trailermovie = await fetchTrailer();
+  const trailerKey = await fetchTrailerKey(trailermovie);
+  renderMovies(movies.results, trailermovie, trailerKey);
   const gen = await fetchGenre();
-  renderGenre(gen.genres)
+  renderGenre(gen.genres);
+  setupFilterDropdown();
 
 };
 
 
 // Don't touch this function please
 const constructUrl = (path) => {
-  return `${TMDB_BASE_URL}/${path}?api_key=${'69a9422c12ba57938ae24e90e3fc9cdf'}`;
+  return `${TMDB_BASE_URL}/${path}?api_key=69a9422c12ba57938ae24e90e3fc9cdf`;
 };
 
 // You may need to add to this function, definitely don't delete it.
@@ -59,6 +55,35 @@ const fetchMovies = async () => {
   const res = await fetch(url);
   return res.json();
 };
+const fetchTrailer = async () => {
+  const response = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=69a9422c12ba57938ae24e90e3fc9cdf`);
+  const data = await response.json();
+
+  // Select a random movie from the list
+  const randomIndex = Math.floor(Math.random() * data.results.length);
+  const movie = data.results[randomIndex];
+
+  return movie;
+}
+const fetchTrailerKey = async (movie) => {
+  console.log(movie)
+  const response = await fetch(`https://api.themoviedb.org/3/movie/${movie.id}/videos?api_key=69a9422c12ba57938ae24e90e3fc9cdf`);
+  const data = await response.json();
+
+  // Check if there are any videos available
+  if (data.results && data.results.length > 0) {
+    // Find the first trailer in the list
+    const trailer = data.results.find(video => video.type === 'Trailer');
+
+    if (trailer) {
+      return trailer.key;
+    }
+  }
+
+  // Return null if no trailer key is found
+  return null;
+
+}
 const fetchGenre = async () => {
   const url = constructUrl(`genre/movie/list`);
   const res = await fetch(url);
@@ -71,7 +96,24 @@ const fetchCast = async (movieId) => {
   const data = await res.json();
   return data.cast;
 };
-
+const fetchActor = async (actorId) => {
+  const url = constructUrl(`person/${actorId}`);
+  const res = await fetch(url);
+  const data = await res.json();
+  return data;
+}
+const fetchKnownFor = async (actorId) => {
+  const url = constructUrl(`person/${actorId}/movie_credits`);
+  const res = await fetch(url);
+  const data = await res.json();
+  return data.cast;
+}
+const fetchActors = async () => {
+  const url = constructUrl(`person/popular`);
+  const res = await fetch(url)
+  const data = await res.json();
+  return data.results;
+}
 // Don't touch this function please. This function is to fetch one movie.
 const fetchMovie = async (movieId) => {
   const url = constructUrl(`movie/${movieId}`);
@@ -116,11 +158,46 @@ const fetchMoviesByFilter = async (filtervalue) => {
     return data;
   }
 }
-// You'll need to play with this function in order to add features and enhance the style.
-const renderMovies = (movies) => {
+const renderActors = (actors) => {
   CONTAINER.innerHTML = ""
+  const actorsDiv = document.createElement("div");
+  actorsDiv.setAttribute("class", "moviesDiv");
+  CONTAINER.appendChild(actorsDiv);
+
+  actors.map((actor) => {
+    const actorDiv = document.createElement("div");
+    actorDiv.setAttribute("class", "movieDiv");
+    actorDiv.innerHTML = `
+     <img class="movieImage card border-warning" src="${BACKDROP_BASE_URL + actor.profile_path}" alt="${actor.name} poster">
+     <h5>${actor.name}</h5>
+     `;
+
+    // actorDiv.addEventListener("click", () => {
+    //   actorDetails(actor);
+    // });
+    actorsDiv.appendChild(actorDiv);
+  })
+}
+// You'll need to play with this function in order to add features and enhance the style.
+const renderMovies = (movies, trailerMovie, trailerKey) => {
+  CONTAINER.innerHTML = ""
+
+  const posterContainer = document.createElement('div');
+  posterContainer.classList.add('d-flex', 'poster-container', 'justify-content-center', 'align-items-center')
+  CONTAINER.appendChild(posterContainer)
+  posterContainer.setAttribute('style', `background-image:url("${BACKDROP_BASE_URL + trailerMovie.backdrop_path}"); background-size: cover;background-repeat: no-repeat;background-position: center; height:100%;aspect-ratio: 7/2;`)
+  const trailerButton = document.createElement('button');
+  trailerButton.classList.add('trailer-btn', 'btn', 'btn-warning', 'btn-lg', 'rounded-pill');
+  trailerButton.textContent = 'Watch Trailer';
+  trailerButton.addEventListener('click', function () {
+    window.location.href = `https://www.youtube.com/watch?v=${trailerKey}`;
+  });
+  posterContainer.appendChild(trailerButton);
+
+
+
   const moviesDiv = document.createElement("div");
-  moviesDiv.setAttribute("class", "moviesDiv");
+  moviesDiv.setAttribute("class", "moviesDiv ");
   CONTAINER.appendChild(moviesDiv);
 
   movies.map((movie) => {
@@ -128,7 +205,7 @@ const renderMovies = (movies) => {
     movieDiv.setAttribute("class", "movieDiv");
     movieDiv.innerHTML = `
      <img class="movieImage card border-warning" src="${BACKDROP_BASE_URL + movie.backdrop_path}" alt="${movie.title} poster">
-     <h4>${movie.title}</h4>
+     <h5>${movie.title}</h5>
      `;
 
     movieDiv.addEventListener("click", () => {
@@ -139,11 +216,10 @@ const renderMovies = (movies) => {
 };
 
 
-
 const renderGenre = async (genres) => {
   genres.map((genre) => {
     const genreli = document.createElement('li');
-    genreli.setAttribute("class", "genreli");
+    genreli.setAttribute("class", "dropdown-item ");
     genreli.innerHTML = `${genre.name}`
     genreli.addEventListener("click", async () => {
       const moviebygenre = await fetchMoviesByGenre(genre.id)
@@ -157,19 +233,33 @@ const renderGenre = async (genres) => {
 
 const renderCast = (cast) => {
   const castDiv = document.querySelector(".cast");
-  cast.map((actor) => {
+  cast.slice(0, 5).map((actor) => {
     const actorli = document.createElement("li");
     actorli.setAttribute("class", "actorli");
-    actorli.innerHTML = ` <img class="rounded" src="${PROFILE_BASE_URL + actor.profile_path}" alt="${actor.name} poster"><div class="actorsCards"><p class="info" id="actorsNames">${actor.name}</p></div>`;
-
+    actorli.innerHTML = ` <div class="actorsCards"><img class="rounded actorimg" src="${PROFILE_BASE_URL + actor.profile_path}" alt="${actor.name} poster"><p class="info pt-4" id="actorsNames">${actor.name}</p></div>`;
+    actorli.addEventListener('click', () => {
+      renderActor(actor, cast);
+    });
     castDiv.appendChild(actorli);
   });
 };
-
-
+const renderKnownFor = (knownfors) => {
+  const castDiv = document.querySelector(".known-for");
+  knownfors.slice(0, 5).map((knownfor) => {
+    const actorli = document.createElement("li");
+    actorli.setAttribute("class", "actorli");
+    actorli.innerHTML = ` <div class="actorsCards"><img class="rounded actorimg" src="${PROFILE_BASE_URL + knownfor.poster_path}" alt="${knownfor.title} poster"><p class="info pt-4" id="actorsNames">${knownfor.title}</p></div>`;
+    actorli.addEventListener('click', async () => {
+      fetchMovie(knownfor.id)
+      movieDetails(knownfor);
+    });
+    castDiv.appendChild(actorli);
+  });
+}
 // You'll need to play with this function in order to add features and enhance the style.
 const renderMovie = (movie, cast) => {
   CONTAINER.innerHTML = `
+  <div class = "movieDetails" style = "background-image:url('${BACKDROP_BASE_URL + movie.poster_path}');background-size: cover;background-repeat: no-repeat;background-position: center;">
     <div class="row">
         <div class="col-md-4">
              <img id="movie-backdrop" src=${BACKDROP_BASE_URL + movie.backdrop_path}>
@@ -182,12 +272,42 @@ const renderMovie = (movie, cast) => {
             <p id="movie-overview">${movie.overview}</p>
         </div>
     </div>
-    <h3>Actors:</h3>
+  </div>
+  <div class ="mx-5 px-2">  
+    <h3 class ="px-5">Cast:</h3>
     <ul id="actors" class="cast"></ul>
+  </div>
   `;
 
   renderCast(cast);
 };
+const renderActor = async (actor, cast) => {
+  const actorprivateDetail = await fetchActor(actor.id);
+  const knowforDetails = await fetchKnownFor(actor.id)
+  const actorDetail = actor;
+  CONTAINER.innerHTML = `
+  <div class = "movieDetails mt-0">
+    <div class="row">
+        <div class="col-md-4">
+             <img id="movie-backdrop" src=${BACKDROP_BASE_URL + actorDetail.profile_path}>
+        </div>
+        <div class="col-md-8">
+            <h2 id="actorDetail-title">${actorDetail.name}</h2>
+            <p id="actorDetail-release-date"><b>Birthday:</b> ${actorprivateDetail.birthday}</p>
+            <p id="actorDetail-runtime"><b>Place of Birth:</b> ${actorprivateDetail.place_of_birth} Minutes</p>
+            <h3>Biography:</h3>
+            <p id="actorDetail-overview">${actorprivateDetail.biography}</p>
+            
+        </div>
+    </div>
+    <h3 class ="mt-5">Known for:</h3>
+            <div class="known-for d-flex justify-content-between">
+            </div>
+  </div>
+  
+  `
+  renderKnownFor(knowforDetails, cast)
+}
 
 var form = document.querySelector('.search-input');
 form.addEventListener('submit', async function (event) {
@@ -199,13 +319,30 @@ form.addEventListener('submit', async function (event) {
   renderMovies(moviesbysearch.results);
 
 });
-var filterSelect = document.getElementById('filter-select');
+function setupFilterDropdown() {
+  var filterOptions = document.getElementsByClassName('filter');
 
-filterSelect.addEventListener('change', async function () {
-  var selectedFilter = filterSelect.value;
+  for (var i = 0; i < filterOptions.length; i++) {
+    filterOptions[i].addEventListener('click', async function (event) {
+      event.preventDefault();
 
-  const filterMovies = await fetchMoviesByFilter(selectedFilter);
-  renderMovies(filterMovies.results)
-});
+      var selectedFilter = this.dataset.filter;
+
+      // Perform your desired action with the selected filter
+      console.log('Selected filter:', selectedFilter);
+
+      const filterMovies = await fetchMoviesByFilter(selectedFilter);
+      renderMovies(filterMovies.results);
+    });
+  }
+}
+
+const actorsli = document.getElementById("actorsli");
+actorsli.addEventListener('click', async function () {
+
+  const actors = await fetchActors();
+  console.log(actors)
+  renderActors(actors)
+})
 
 document.addEventListener("DOMContentLoaded", autorun);
