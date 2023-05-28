@@ -236,7 +236,9 @@ const renderGenre = async (genres) => {
     genreli.innerHTML = `${genre.name}`
     genreli.addEventListener("click", async () => {
       const moviebygenre = await fetchMoviesByGenre(genre.id)
-      renderMovies(moviebygenre.results);
+      const trailer = await fetchTrailer();
+      const trailerkey = await fetchTrailerKey(trailer)
+      renderMovies(moviebygenre.results, trailer, trailerkey);
     });
     GENREDD.appendChild(genreli)
 
@@ -377,9 +379,10 @@ function setupFilterDropdown() {
 
       // Perform your desired action with the selected filter
       console.log('Selected filter:', selectedFilter);
-
+      const trailer = await fetchTrailer();
+      const trailerkey = await fetchTrailerKey(trailer);
       const filterMovies = await fetchMoviesByFilter(selectedFilter);
-      renderMovies(filterMovies.results);
+      renderMovies(filterMovies.results, trailer, trailerkey);
     });
   }
 }
