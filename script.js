@@ -172,9 +172,9 @@ const renderActors = (actors) => {
      <h5>${actor.name}</h5>
      `;
 
-    // actorDiv.addEventListener("click", () => {
-    //   actorDetails(actor);
-    // });
+    actorDiv.addEventListener("click", () => {
+      renderActor(actor);
+    });
     actorsDiv.appendChild(actorDiv);
   })
 }
@@ -185,16 +185,26 @@ const renderMovies = (movies, trailerMovie, trailerKey) => {
   const posterContainer = document.createElement('div');
   posterContainer.classList.add('d-flex', 'poster-container', 'justify-content-center', 'align-items-center')
   CONTAINER.appendChild(posterContainer)
+
   posterContainer.setAttribute('style', `background-image:url("${BACKDROP_BASE_URL + trailerMovie.backdrop_path}"); background-size: cover;background-repeat: no-repeat;background-position: center; height:100%;aspect-ratio: 7/2;`)
+  const vidSec = document.createElement('div');
+  vidSec.setAttribute('id', 'vidSec')
+  vidSec.innerText = "this is vid sec"
+  CONTAINER.appendChild(vidSec)
   const trailerButton = document.createElement('button');
   trailerButton.classList.add('trailer-btn', 'btn', 'btn-warning', 'btn-lg', 'rounded-pill');
   trailerButton.textContent = 'Watch Trailer';
   trailerButton.addEventListener('click', function () {
-    window.location.href = `https://www.youtube.com/watch?v=${trailerKey}`;
+    vidSec.innerHTML = `  <div class="d-flex justify-content-center align-items-center">
+    <div id="videoSection" class="embed-responsive embed-responsive-16by9 " style="display: none; width: 70%;">
+      <iframe id="videoPlayer" class="embed-responsive-item" src="" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+    </div>
+  </div>  `
+
+    renderVideo(trailerKey);
   });
+
   posterContainer.appendChild(trailerButton);
-
-
 
   const moviesDiv = document.createElement("div");
   moviesDiv.setAttribute("class", "moviesDiv ");
@@ -204,13 +214,16 @@ const renderMovies = (movies, trailerMovie, trailerKey) => {
     const movieDiv = document.createElement("div");
     movieDiv.setAttribute("class", "movieDiv");
     movieDiv.innerHTML = `
-     <img class="movieImage card border-warning" src="${BACKDROP_BASE_URL + movie.backdrop_path}" alt="${movie.title} poster">
+     <img class="movieImage card" src="${BACKDROP_BASE_URL + movie.backdrop_path}" alt="${movie.title} poster">
      <h5>${movie.title}</h5>
      `;
 
     movieDiv.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       movieDetails(movie);
     });
+
+    posterContainer.appendChild(trailerButton);
     moviesDiv.appendChild(movieDiv);
   })
 };
@@ -232,12 +245,14 @@ const renderGenre = async (genres) => {
 };
 
 const renderCast = (cast) => {
+
   const castDiv = document.querySelector(".cast");
   cast.slice(0, 5).map((actor) => {
     const actorli = document.createElement("li");
     actorli.setAttribute("class", "actorli");
     actorli.innerHTML = ` <div class="actorsCards"><img class="rounded actorimg" src="${PROFILE_BASE_URL + actor.profile_path}" alt="${actor.name} poster"><p class="info pt-4" id="actorsNames">${actor.name}</p></div>`;
     actorli.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       renderActor(actor, cast);
     });
     castDiv.appendChild(actorli);
@@ -250,6 +265,7 @@ const renderKnownFor = (knownfors) => {
     actorli.setAttribute("class", "actorli");
     actorli.innerHTML = ` <div class="actorsCards"><img class="rounded actorimg" src="${PROFILE_BASE_URL + knownfor.poster_path}" alt="${knownfor.title} poster"><p class="info pt-4" id="actorsNames">${knownfor.title}</p></div>`;
     actorli.addEventListener('click', async () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       fetchMovie(knownfor.id)
       movieDetails(knownfor);
     });
@@ -257,7 +273,8 @@ const renderKnownFor = (knownfors) => {
   });
 }
 // You'll need to play with this function in order to add features and enhance the style.
-const renderMovie = (movie, cast) => {
+const renderMovie = async (movie, cast) => {
+
   CONTAINER.innerHTML = `
   <div class = "movieDetails" style = "background-image:url('${BACKDROP_BASE_URL + movie.poster_path}');background-size: cover;background-repeat: no-repeat;background-position: center;">
     <div class="row">
@@ -270,7 +287,13 @@ const renderMovie = (movie, cast) => {
             <p id="movie-runtime"><b>Runtime:</b> ${movie.runtime} Minutes</p>
             <h3>Overview:</h3>
             <p id="movie-overview">${movie.overview}</p>
+            <div class ="trailerbtn"></div>
         </div>
+    </div>
+  </div>
+  <div class="d-flex justify-content-center align-items-center">
+    <div id="videoSection" class = "embed-responsive embed-responsive-16by9 "style="display: none; width: 70%;">
+      <iframe id="videoPlayer"  class="embed-responsive-item" src="" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
     </div>
   </div>
   <div class ="mx-5 px-2">  
@@ -278,9 +301,33 @@ const renderMovie = (movie, cast) => {
     <ul id="actors" class="cast"></ul>
   </div>
   `;
+  const trailerbtnDiv = document.querySelector(".trailerbtn")
+
+  const trailerBtn = document.createElement('button');
+  const trKey = await fetchTrailerKey(movie)
+  trailerBtn.classList.add('btn', 'btn-warning', 'btn-lg', 'rounded-pill');
+  trailerBtn.textContent = 'Watch Trailer';
+  trailerBtn.addEventListener('click', function () {
+    renderVideo(trKey);
+  });
+  trailerbtnDiv.appendChild(trailerBtn);
 
   renderCast(cast);
 };
+const renderVideo = (key) => {
+  const videoSection = document.getElementById('videoSection');
+  const videoPlayer = document.getElementById('videoPlayer');
+  videoSection.style.display = 'block';
+  videoPlayer.src = `https://www.youtube.com/embed/${key}`;
+  const windowHeight = window.innerHeight;
+  const videoHeight = videoSection.offsetHeight;
+  const offsetTop = videoSection.offsetTop + (videoHeight / 2) - (windowHeight / 2);
+
+  window.scrollTo({
+    top: offsetTop,
+    behavior: "smooth"
+  });
+}
 const renderActor = async (actor, cast) => {
   const actorprivateDetail = await fetchActor(actor.id);
   const knowforDetails = await fetchKnownFor(actor.id)
