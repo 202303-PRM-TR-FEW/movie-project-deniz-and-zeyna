@@ -331,11 +331,11 @@ const renderActor = async (actor, cast) => {
   const actorDetail = actor;
   CONTAINER.innerHTML = `
   <div class="movieDetails mt-0">
-        <div class="row">
+        <div class="row mx-3">
             <div class="col-md-4">
                 <img id="movie-backdrop" src=${BACKDROP_BASE_URL + actorDetail.profile_path}>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-8 mt-5">
                 <h2 id="actorDetail-title">${actorDetail.name}</h2>
                 <p id="actorDetail-release-date"><b>Birthday:</b> ${actorprivateDetail.birthday}</p>
                 <p id="actorDetail-runtime"><b>Place of Birth:</b> ${actorprivateDetail.place_of_birth}</p>
@@ -348,7 +348,7 @@ const renderActor = async (actor, cast) => {
     </div>
     <div class="mt-3 px-5 biography">
         <h3>Biography:</h3>
-        <p id="actorDetail-overview" class = "pt-2 pr-5">${actorprivateDetail.biography}</p>
+        <p id="actorDetail-overview" class = "pt-2 pr-5 text-justify">${actorprivateDetail.biography}</p>
     </div>
     <div class="mt-3 px-5 hv-100">
         <h3 class="mt-5">Known for:</h3>
