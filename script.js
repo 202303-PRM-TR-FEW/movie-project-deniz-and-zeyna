@@ -338,7 +338,9 @@ const renderActor = async (actor, cast) => {
             <div class="col-md-8">
                 <h2 id="actorDetail-title">${actorDetail.name}</h2>
                 <p id="actorDetail-release-date"><b>Birthday:</b> ${actorprivateDetail.birthday}</p>
-                <p id="actorDetail-runtime"><b>Place of Birth:</b> ${actorprivateDetail.place_of_birth} Minutes</p>
+                <p id="actorDetail-runtime"><b>Place of Birth:</b> ${actorprivateDetail.place_of_birth}</p>
+                <p id="actorDetail-popularity"><b>Popularity:</b> ${actorprivateDetail.popularity}</p>
+
 
 
             </div>
@@ -346,7 +348,7 @@ const renderActor = async (actor, cast) => {
     </div>
     <div class="mt-3 px-5 biography">
         <h3>Biography:</h3>
-        <p id="actorDetail-overview">${actorprivateDetail.biography}</p>
+        <p id="actorDetail-overview" class = "pt-2 pr-5">${actorprivateDetail.biography}</p>
     </div>
     <div class="mt-3 px-5 hv-100">
         <h3 class="mt-5">Known for:</h3>
