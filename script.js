@@ -182,7 +182,7 @@ const renderMovies = (movies, trailerMovie, trailerKey) => {
   posterContainer.classList.add('d-flex', 'poster-container', 'justify-content-center', 'align-items-center')
   CONTAINER.appendChild(posterContainer)
 
-  posterContainer.setAttribute('style', `background-image:url("${BACKDROP_BASE_URL + trailerMovie.backdrop_path}"); background-size: cover;background-repeat: no-repeat;background-position: center; height:100%;aspect-ratio: 9/2;`)
+  posterContainer.setAttribute('style', `background-image:url("${BACKDROP_BASE_URL + trailerMovie.backdrop_path}"); `)
   const vidSec = document.createElement('div');
   vidSec.setAttribute('id', 'vidSec')
   CONTAINER.appendChild(vidSec)
@@ -273,7 +273,7 @@ const renderKnownFor = (knownfors) => {
 const renderMovie = async (movie, cast) => {
 
   CONTAINER.innerHTML = `
-  <div class = "movieDetails" style = "background-image:url('${BACKDROP_BASE_URL + movie.poster_path}');background-size: cover;background-repeat: no-repeat;background-position: center;">
+  <div class = "movieDetails" style = "background-image:url('${BACKDROP_BASE_URL + movie.poster_path}');">
     <div class="row">
         <div class="col-md-4">
              <img id="movie-backdrop" src=${BACKDROP_BASE_URL + movie.backdrop_path}>
@@ -288,7 +288,7 @@ const renderMovie = async (movie, cast) => {
         </div>
     </div>
   </div>
-  <div class="d-flex justify-content-center align-items-center">
+  <div class="mt-5 d-flex justify-content-center align-items-center">
     <div id="videoSection" class = "embed-responsive embed-responsive-16by9 "style="display: none; width: 70%;">
       <iframe id="videoPlayer"  class="embed-responsive-item" src="" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
     </div>
@@ -330,24 +330,30 @@ const renderActor = async (actor, cast) => {
   const knowforDetails = await fetchKnownFor(actor.id)
   const actorDetail = actor;
   CONTAINER.innerHTML = `
-  <div class = "movieDetails mt-0">
-    <div class="row">
-        <div class="col-md-4">
-             <img id="movie-backdrop" src=${BACKDROP_BASE_URL + actorDetail.profile_path}>
-        </div>
-        <div class="col-md-8">
-            <h2 id="actorDetail-title">${actorDetail.name}</h2>
-            <p id="actorDetail-release-date"><b>Birthday:</b> ${actorprivateDetail.birthday}</p>
-            <p id="actorDetail-runtime"><b>Place of Birth:</b> ${actorprivateDetail.place_of_birth} Minutes</p>
-            <h3>Biography:</h3>
-            <p id="actorDetail-overview">${actorprivateDetail.biography}</p>
-            
+  <div class="movieDetails mt-0">
+        <div class="row">
+            <div class="col-md-4">
+                <img id="movie-backdrop" src=${BACKDROP_BASE_URL + actorDetail.profile_path}>
+            </div>
+            <div class="col-md-8">
+                <h2 id="actorDetail-title">${actorDetail.name}</h2>
+                <p id="actorDetail-release-date"><b>Birthday:</b> ${actorprivateDetail.birthday}</p>
+                <p id="actorDetail-runtime"><b>Place of Birth:</b> ${actorprivateDetail.place_of_birth} Minutes</p>
+
+
+            </div>
         </div>
     </div>
-    <h3 class ="mt-5">Known for:</h3>
-            <div class="known-for d-flex justify-content-between">
-            </div>
-  </div>
+    <div class="mt-3 px-5 biography">
+        <h3>Biography:</h3>
+        <p id="actorDetail-overview">${actorprivateDetail.biography}</p>
+    </div>
+    <div class="mt-3 px-5 hv-100">
+        <h3 class="mt-5">Known for:</h3>
+        <div class="known-for d-flex justify-content-between">
+        </div>
+    </div>
+
   
   `
   renderKnownFor(knowforDetails, cast)
