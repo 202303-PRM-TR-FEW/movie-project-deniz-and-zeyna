@@ -6,7 +6,6 @@ body {
     width: 100%;
     height: 100%;
     border-radius: 1rem;
-
 }
 
 .actorsCards {
@@ -29,14 +28,11 @@ body {
 
 .movieDetails {
     width: 100%;
-    margin-top: 6rem;
-    margin-bottom: 9rem;
     padding-top: 9rem;
     padding-bottom: 3rem;
     padding-left: 3rem;
     padding-right: 3rem;
     /* background-image: linear-gradient(to right, rgba(31.5, 31.5, 31.5, 1) calc((50vw - 170px) - 340px), rgba(31.5, 31.5, 31.5, 0.84) 50%, rgba(31.5, 31.5, 31.5, 0.84) 100%); */
-
 }
 
 .trailer-btn {
@@ -64,7 +60,7 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    height: 90%;
+    height: 100%;
     background-color: rgba(0, 0, 0, 0.9);
     /* Adjust the opacity here */
 }
@@ -78,9 +74,11 @@ body {
     justify-content: center;
 }
 
+
 /* container {
   padding-top: 32px;
   } */
+
 
 /* .row {
     margin-top: 10rem;
@@ -101,9 +99,6 @@ body {
     align-items: center;
 }
 
-
-
-
 #actors {
     margin: 24px 16px 0 0;
 }
@@ -116,13 +111,13 @@ body {
 
 .movieImage {
     /* border-radius: 50px; */
-    height: 411px;
-    width: 312px;
+    height: 300px;
+    width: 210px;
     transition: 1s all ease-in-out;
     position: relative;
     z-index: -1 !important;
+    border-radius: 10px;
 }
-
 
 .actors {
     display: flex;
@@ -145,8 +140,8 @@ body {
     transition: all 1s ease-in-out;
     overflow: hidden;
     z-index: 100;
-    margin-left: 175px;
-    margin-right: 175px;
+    margin-left: 100px;
+    margin-right: 100px;
 }
 
 .genreli {
@@ -163,7 +158,6 @@ body {
     align-items: center;
     width: 100%;
     padding-bottom: 3%;
-
     overflow: hidden;
     z-index: 100;
     margin: auto;
@@ -172,14 +166,15 @@ body {
 
 .actorli {
     text-align: center;
+    list-style-type: none;
 }
 
 h5 {
     display: flex;
-    color: rgb(255, 196, 0);
     padding-top: 25px;
     align-items: center;
     justify-content: center;
+    color: white;
 }
 
 h2,
@@ -187,7 +182,6 @@ h3,
 p {
     color: white;
 }
-
 
 .footer {
     position: relative;
@@ -199,8 +193,6 @@ p {
     color: white;
     text-align: center;
 }
-
-
 
 .footerDesign {
     display: flex;

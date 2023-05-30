@@ -136,22 +136,18 @@ const fetchMoviesByFilter = async (filtervalue) => {
     const res = await fetch(url);
     const data = await res.json();
     return data;
-  }
-  else if (filtervalue == "release_date") {
+  } else if (filtervalue == "release_date") {
     const res = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=69a9422c12ba57938ae24e90e3fc9cdf&sort_by=release_date.desc`);
     const data = await res.json();
     return data;
-  }
-  else if (filtervalue == "top_rated") {
+  } else if (filtervalue == "top_rated") {
     const url = constructUrl(`movie/top_rated`);
     const res = await fetch(url);
     const data = await res.json();
     return data;
-  }
-  else if (filtervalue == "now_playing") {
+  } else if (filtervalue == "now_playing") {
     return await fetchMovies()
-  }
-  else if (filtervalue == "upcoming") {
+  } else if (filtervalue == "upcoming") {
     const url = constructUrl(`movie/upcoming`);
     const res = await fetch(url);
     const data = await res.json();
@@ -168,7 +164,7 @@ const renderActors = (actors) => {
     const actorDiv = document.createElement("div");
     actorDiv.setAttribute("class", "movieDiv");
     actorDiv.innerHTML = `
-     <img class="movieImage card border-warning" src="${BACKDROP_BASE_URL + actor.profile_path}" alt="${actor.name} poster">
+     <img class="movieImage  " src="${BACKDROP_BASE_URL + actor.profile_path}" alt="${actor.name} poster">
      <h5>${actor.name}</h5>
      `;
 
@@ -186,10 +182,9 @@ const renderMovies = (movies, trailerMovie, trailerKey) => {
   posterContainer.classList.add('d-flex', 'poster-container', 'justify-content-center', 'align-items-center')
   CONTAINER.appendChild(posterContainer)
 
-  posterContainer.setAttribute('style', `background-image:url("${BACKDROP_BASE_URL + trailerMovie.backdrop_path}"); background-size: cover;background-repeat: no-repeat;background-position: center; height:100%;aspect-ratio: 7/2;`)
+  posterContainer.setAttribute('style', `background-image:url("${BACKDROP_BASE_URL + trailerMovie.backdrop_path}"); background-size: cover;background-repeat: no-repeat;background-position: center; height:100%;aspect-ratio: 9/2;`)
   const vidSec = document.createElement('div');
   vidSec.setAttribute('id', 'vidSec')
-  vidSec.innerText = "this is vid sec"
   CONTAINER.appendChild(vidSec)
   const trailerButton = document.createElement('button');
   trailerButton.classList.add('trailer-btn', 'btn', 'btn-warning', 'btn-lg', 'rounded-pill');
@@ -214,7 +209,7 @@ const renderMovies = (movies, trailerMovie, trailerKey) => {
     const movieDiv = document.createElement("div");
     movieDiv.setAttribute("class", "movieDiv");
     movieDiv.innerHTML = `
-     <img class="movieImage card" src="${BACKDROP_BASE_URL + movie.backdrop_path}" alt="${movie.title} poster">
+     <img class="movieImage " src="${BACKDROP_BASE_URL + movie.backdrop_path}" alt="${movie.title} poster">
      <h5>${movie.title}</h5>
      `;
 
@@ -298,7 +293,7 @@ const renderMovie = async (movie, cast) => {
       <iframe id="videoPlayer"  class="embed-responsive-item" src="" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
     </div>
   </div>
-  <div class ="mx-5 px-2">  
+  <div class ="mt-5 pt-5 mx-5 px-2">  
     <h3 class ="px-5">Cast:</h3>
     <ul id="actors" class="cast"></ul>
   </div>
@@ -364,10 +359,13 @@ form.addEventListener('submit', async function (event) {
   var input = document.querySelector('.form-control');
   var searchQuery = input.value;
   input.value = ''
-  const moviesbysearch = await fetchMoviesBysearch(searchQuery)
-  renderMovies(moviesbysearch.results);
+  const moviesbysearch = await fetchMoviesBysearch(searchQuery);
+  const trailer = await fetchTrailer();
+  const trailerkey = await fetchTrailerKey(trailer);
+  renderMovies(moviesbysearch.results, trailer, trailerkey);
 
 });
+
 function setupFilterDropdown() {
   var filterOptions = document.getElementsByClassName('filter');
 
